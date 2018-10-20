@@ -1,6 +1,10 @@
 var score = 0
+
 var xBall = 300
 var yBall = 200
+var ballYSpeed = 2
+var ballXSpeed = 0
+
 var xPaddle = 200
 var paddleSpeed = 20
 var paddleWidth = 200
@@ -13,14 +17,25 @@ function draw() {
   background(0)
   fill(255)
 
-  //Non moving
-  rect (-1,-1,601,7)
-  text('Score: ' + score, 10, 30)
-
   isPaddleAtEdge()
+  isBallAtEdge()
 
-  ellipse(xBall,yBall,10,10)
-  rect(xPaddle, 385, paddleWidth, 10)
+  yBall = yBall + ballYSpeed
+  xBall = xBall + ballXSpeed
+
+  isPaddleCollision()
+
+  if (isOffScreen()) {
+    text('Game Over!', 10, 150)
+    text('Score: ' + score, 10, 170)
+  } else {
+    rect (-1,-1,601,7)
+    text('Score: ' + score, 10, 30)
+
+    ellipse(xBall,yBall,10,10)
+    rect(xPaddle, 385, paddleWidth, 10)
+  }
+
 
 }
 
@@ -37,5 +52,27 @@ function isPaddleAtEdge() {
     xPaddle = 600 - paddleWidth
   } else if (xPaddle < 0) {
     xPaddle = 0
+  }
+}
+
+function isPaddleCollision() {
+  if (xBall > xPaddle && xBall < xPaddle + paddleWidth && yBall > 385 || yBall < 7) {
+    if(yBall < 388 && yBall > 385) {
+      score++
+      ballXSpeed = Math.floor((Math.random() * 10) + 1)
+    }
+    ballYSpeed = ballYSpeed * -1
+  }
+}
+
+function isBallAtEdge() {
+  if (xBall < 0 || xBall > 600) {
+    ballXSpeed = ballXSpeed * -1
+  }
+}
+
+function isOffScreen() {
+  if (yBall > 400) {
+    return true
   }
 }
