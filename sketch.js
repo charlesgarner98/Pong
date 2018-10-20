@@ -6,7 +6,7 @@ var ballYSpeed = 2
 var ballXSpeed = 0
 
 var xPaddle = 200
-var paddleSpeed = 20
+var paddleSpeed = 40
 var paddleWidth = 200
 
 function setup() {
@@ -26,6 +26,8 @@ function draw() {
   isPaddleCollision()
 
   if (isOffScreen()) {
+    ballYSpeed = 0
+    ballXSpeed = 0
     text('Game Over!', 10, 150)
     text('Score: ' + score, 10, 170)
   } else {
@@ -60,6 +62,7 @@ function isPaddleCollision() {
     if(yBall < 388 && yBall > 385) {
       score++
       ballXSpeed = Math.floor((Math.random() * 10) + 1)
+      ballYSpeed = Math.floor((Math.random() * 10) + 1)
     }
     ballYSpeed = ballYSpeed * -1
   }
